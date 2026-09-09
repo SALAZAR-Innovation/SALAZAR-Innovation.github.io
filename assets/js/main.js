@@ -123,6 +123,38 @@
         const unlimitedDetails = document.getElementById('unlimited-details');
         const unlimitedMore = unlimitedTrigger ? unlimitedTrigger.querySelector('.rama-more') : null;
         const unlimitedCtaButton = document.querySelector('.btn-unlimited-cta');
+        const ramasContainer = document.querySelector('.ramas-container');
+        const unlimitedItem = unlimitedTrigger ? unlimitedTrigger.closest('.rama-item') : null;
+        const servicesItem = servicesTrigger ? servicesTrigger.closest('.rama-item') : null;
+
+        function syncProductDetailsPlacement() {
+            if (!ramasContainer || !servicesDetails || !unlimitedDetails) return;
+
+            const isMobile = window.innerWidth <= 640;
+
+            if (isMobile) {
+                if (unlimitedItem && unlimitedDetails.parentElement !== unlimitedItem) {
+                    unlimitedItem.appendChild(unlimitedDetails);
+                }
+
+                if (servicesItem && servicesDetails.parentElement !== servicesItem) {
+                    servicesItem.appendChild(servicesDetails);
+                }
+
+                return;
+            }
+
+            if (unlimitedDetails.parentElement !== ramasContainer) {
+                ramasContainer.appendChild(unlimitedDetails);
+            }
+
+            if (servicesDetails.parentElement !== ramasContainer) {
+                ramasContainer.appendChild(servicesDetails);
+            }
+        }
+
+        syncProductDetailsPlacement();
+        window.addEventListener('resize', syncProductDetailsPlacement);
 
         function setDetailsState(trigger, details, more, isOpen) {
             if (!trigger || !details) return;
